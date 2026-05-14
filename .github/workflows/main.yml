@@ -165,8 +165,10 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            Kittygram workflow completed successfully!
+            ${{ job.status == 'success' && '✅' || '❌' }} Kittygram workflow ${{ job.status }}!
             Time: ${{ github.event.head_commit.timestamp }}
             Repository: ${{ github.repository }}
             Author: ${{ github.actor }}
             Commit: ${{ github.event.head_commit.message }}
+            Workflow status: ${{ job.status == 'success' && '✅ Success' || '❌ Failed' }}
+            ${{ job.status == 'failure' && format('Run URL: https://github.com/{0}/actions/runs/{1}', github.repository, github.run_id) || '' }}
